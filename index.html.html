@@ -1,0 +1,557 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Заказ GOODBUNS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f7f9fc;
+            padding: 20px;
+            margin: 0;
+        }
+        .brand {
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        label {
+            font-weight: bold;
+        }
+        select, input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        .day-toggle {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .day-toggle button {
+            padding: 10px 12px;
+            margin: 3px;
+            font-size: 14px;
+            border: none;
+            background-color: #3498db;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .day-toggle button:hover {
+            background-color: #2980b9;
+        }
+        .card {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+        .card-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .submit-btn {
+            margin-top: 20px;
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background-color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <div class="brand">GOODBUNS</div>
+    <h2>Форма заказа</h2>
+
+    <label for="shop">Выберите точку:</label>
+    <select id="shop">
+        <option>Магистраль</option>
+        <option>Омега</option>
+        <option>Черри Тауэр</option>
+        <option>Гефест</option>
+        <option>Холл</option>
+        <option>Столовая</option>
+    </select>
+
+    <div class="day-toggle">
+        <strong>Выберите день:</strong><br>
+        <button onclick="selectDay('Пн')">Пн</button>
+        <button onclick="selectDay('Вт')">Вт</button>
+        <button onclick="selectDay('Ср')">Ср</button>
+        <button onclick="selectDay('Чт')">Чт</button>
+        <button onclick="selectDay('Пт')">Пт</button>
+    </div>
+
+    <form id="order-form">
+        <div id="cards">
+            
+            <div class="card">
+                <div class="card-title">Стакан 0.1</div>
+                <input type="number" name="amount_1" data-name="Стакан 0.1" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Стакан 0.2</div>
+                <input type="number" name="amount_2" data-name="Стакан 0.2" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Стакан 0.3</div>
+                <input type="number" name="amount_3" data-name="Стакан 0.3" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Стакан 0.4</div>
+                <input type="number" name="amount_4" data-name="Стакан 0.4" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Стакан Шейк 0.4</div>
+                <input type="number" name="amount_5" data-name="Стакан Шейк 0.4" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Крышки 90</div>
+                <input type="number" name="amount_6" data-name="Крышки 90" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Крышки 80</div>
+                <input type="number" name="amount_7" data-name="Крышки 80" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Крышки Шейк</div>
+                <input type="number" name="amount_8" data-name="Крышки Шейк" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Трубочки</div>
+                <input type="number" name="amount_9" data-name="Трубочки" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Мешалки</div>
+                <input type="number" name="amount_10" data-name="Мешалки" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Ложки</div>
+                <input type="number" name="amount_11" data-name="Ложки" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Вилки</div>
+                <input type="number" name="amount_12" data-name="Вилки" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Лента Кассовая 80на80</div>
+                <input type="number" name="amount_13" data-name="Лента Кассовая 80на80" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Лента Терминал</div>
+                <input type="number" name="amount_14" data-name="Лента Терминал" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Пакеты Майка</div>
+                <input type="number" name="amount_15" data-name="Пакеты Майка" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Мусорные 240л</div>
+                <input type="number" name="amount_16" data-name="Мусорные 240л" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Стекломой</div>
+                <input type="number" name="amount_17" data-name="Стекломой" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Шуманит </div>
+                <input type="number" name="amount_18" data-name="Шуманит " placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Cafiza 1кг</div>
+                <input type="number" name="amount_19" data-name="Cafiza 1кг" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Фери</div>
+                <input type="number" name="amount_20" data-name="Фери" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Белезна</div>
+                <input type="number" name="amount_21" data-name="Белезна" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">пемалюкс</div>
+                <input type="number" name="amount_22" data-name="пемалюкс" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Ловушки</div>
+                <input type="number" name="amount_23" data-name="Ловушки" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Губка</div>
+                <input type="number" name="amount_24" data-name="Губка" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Фильтры для Bovilor 50шт</div>
+                <input type="number" name="amount_25" data-name="Фильтры для Bovilor 50шт" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">фильры для чая </div>
+                <input type="number" name="amount_26" data-name="фильры для чая " placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Перчатки </div>
+                <input type="number" name="amount_27" data-name="Перчатки " placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Пергамент</div>
+                <input type="number" name="amount_28" data-name="Пергамент" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Тряпка из микрофибры</div>
+                <input type="number" name="amount_29" data-name="Тряпка из микрофибры" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Бумажные пакеты </div>
+                <input type="number" name="amount_30" data-name="Бумажные пакеты " placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Салфетки </div>
+                <input type="number" name="amount_31" data-name="Салфетки " placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Зева</div>
+                <input type="number" name="amount_32" data-name="Зева" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Тряпки половые </div>
+                <input type="number" name="amount_33" data-name="Тряпки половые " placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Фильтр для чая</div>
+                <input type="number" name="amount_34" data-name="Фильтр для чая" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Контейнера RK</div>
+                <input type="number" name="amount_35" data-name="Контейнера RK" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Подставка 2х</div>
+                <input type="number" name="amount_36" data-name="Подставка 2х" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Подставка 4х</div>
+                <input type="number" name="amount_37" data-name="Подставка 4х" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Молоко 3,2%</div>
+                <input type="number" name="amount_38" data-name="Молоко 3,2%" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Сливки 11%</div>
+                <input type="number" name="amount_39" data-name="Сливки 11%" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Кокосовый </div>
+                <input type="number" name="amount_40" data-name="Кокосовый " placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Миндальный </div>
+                <input type="number" name="amount_41" data-name="Миндальный " placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Фундучный</div>
+                <input type="number" name="amount_42" data-name="Фундучный" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Банановый</div>
+                <input type="number" name="amount_43" data-name="Банановый" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Соевый </div>
+                <input type="number" name="amount_44" data-name="Соевый " placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Ягодный</div>
+                <input type="number" name="amount_45" data-name="Ягодный" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Клюквеный</div>
+                <input type="number" name="amount_46" data-name="Клюквеный" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Облепиховый</div>
+                <input type="number" name="amount_47" data-name="Облепиховый" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Шиповник</div>
+                <input type="number" name="amount_48" data-name="Шиповник" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Имбирный</div>
+                <input type="number" name="amount_49" data-name="Имбирный" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Маракуйя</div>
+                <input type="number" name="amount_50" data-name="Маракуйя" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Малина </div>
+                <input type="number" name="amount_51" data-name="Малина " placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">ЭрлГрей</div>
+                <input type="number" name="amount_52" data-name="ЭрлГрей" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Сенча</div>
+                <input type="number" name="amount_53" data-name="Сенча" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Мята</div>
+                <input type="number" name="amount_54" data-name="Мята" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Кофе эспрессо №4</div>
+                <input type="number" name="amount_55" data-name="Кофе эспрессо №4" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Зерно фильтр</div>
+                <input type="number" name="amount_56" data-name="Зерно фильтр" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Арахисовая Паста</div>
+                <input type="number" name="amount_57" data-name="Арахисовая Паста" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Какао 1кг</div>
+                <input type="number" name="amount_58" data-name="Какао 1кг" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Кедровые Орехи  </div>
+                <input type="number" name="amount_59" data-name="Кедровые Орехи  " placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Матча</div>
+                <input type="number" name="amount_60" data-name="Матча" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Гвозьдика</div>
+                <input type="number" name="amount_61" data-name="Гвозьдика" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Бадьян </div>
+                <input type="number" name="amount_62" data-name="Бадьян " placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">цедра</div>
+                <input type="number" name="amount_63" data-name="цедра" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Корица Пальчиковая </div>
+                <input type="number" name="amount_64" data-name="Корица Пальчиковая " placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Корица Молотая</div>
+                <input type="number" name="amount_65" data-name="Корица Молотая" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Апельсин</div>
+                <input type="number" name="amount_66" data-name="Апельсин" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Лимон</div>
+                <input type="number" name="amount_67" data-name="Лимон" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Лайм</div>
+                <input type="number" name="amount_68" data-name="Лайм" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Пряный Чай 250г</div>
+                <input type="number" name="amount_69" data-name="Пряный Чай 250г" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Сиропы  1л</div>
+                <input type="number" name="amount_70" data-name="Сиропы  1л" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Сахар 1кг</div>
+                <input type="number" name="amount_71" data-name="Сахар 1кг" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">БонАква 0.5 </div>
+                <input type="number" name="amount_72" data-name="БонАква 0.5 " placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">сок ЯН</div>
+                <input type="number" name="amount_73" data-name="сок ЯН" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Татни (12шт)</div>
+                <input type="number" name="amount_74" data-name="Татни (12шт)" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Апельсиновый сок 1л</div>
+                <input type="number" name="amount_75" data-name="Апельсиновый сок 1л" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Тоник </div>
+                <input type="number" name="amount_76" data-name="Тоник " placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Вода Газ 1,5л</div>
+                <input type="number" name="amount_77" data-name="Вода Газ 1,5л" placeholder="Количество на выбранный день">
+            </div>
+            
+            <div class="card">
+                <div class="card-title">лёд</div>
+                <input type="number" name="amount_78" data-name="лёд" placeholder="Количество на выбранный день">
+            </div>
+            
+        </div>
+        <button class="submit-btn" type="submit">Отправить заказ</button>
+    </form>
+
+    <script>
+        let selectedDay = 'Пн';
+        function selectDay(day) {
+            selectedDay = day;
+            document.querySelectorAll('.card input').forEach(input => {
+                input.placeholder = 'Количество (' + day + ')';
+            });
+        }
+        selectDay('Пн');
+
+        document.getElementById("order-form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const shop = document.getElementById("shop").value;
+            let message = `☕️ *ЗАКАЗ*
+*Точка:* ${shop}
+*День:* ${selectedDay}
+
+`;
+
+            document.querySelectorAll('.card input').forEach(input => {
+                const name = input.dataset.name;
+                const qty = input.value;
+                if (qty && qty.trim() !== "" && qty !== "0") {
+                    message += `• ${name}: ${qty}
+`;
+                }
+            });
+
+            const token = "7714393507:AAHkR0Sa2O64Dh58MI78YdJBSYjc_EAyIJw";
+            const chatId = "524359902";
+            const url = `https://api.telegram.org/bot${token}/sendMessage`;
+
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: message,
+                    parse_mode: "Markdown"
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert("Заказ отправлен в Telegram ✅");
+            })
+            .catch(err => {
+                alert("Ошибка при отправке 😢");
+            });
+        });
+    </script>
+</body>
+</html>
