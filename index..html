@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>GoodBuns Заказ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: Arial; background: #f3f4f6; padding: 20px; }
+        .container { max-width: 700px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; }
+        select, input[type="number"], button { width: 100%; padding: 10px; margin: 5px 0; }
+        table { width: 100%; margin-top: 15px; border-collapse: collapse; }
+        th, td { border: 1px solid #ccc; padding: 8px; }
+        th { background: #e9ecef; }
+        .add-btn { background: #007bff; color: white; border: none; padding: 10px; margin-top: 10px; cursor: pointer; border-radius: 5px; }
+        .add-btn:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>GoodBuns Заказ</h1>
+        <label>Выберите точку:</label>
+        <select id="point">
+            <option>Магистраль</option>
+            <option>Омега</option>
+            <option>Гефест</option>
+            <option>Черри</option>
+            <option>Холл</option>
+        </select>
+
+        <label>День недели:</label>
+        <select id="day">
+            <option>Пн</option>
+            <option>Вт</option>
+            <option>Ср</option>
+            <option>Чт</option>
+            <option>Пт</option>
+        </select>
+
+        <h3>Основные товары</h3>
+        <table>
+            <thead>
+                <tr><th>Наименование</th><th>Кол-во</th></tr>
+            </thead>
+            <tbody id="order-body">
+                <tr><td>Cafiza 1кг</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Апельсин</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Апельсиновый сок 1л</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Арахисовая Паста</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Бадьян </td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Банановый</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Белезна</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>БонАква 0.5 </td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Бумажные пакеты </td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Вилки</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Вода 5л</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Вода Газ 1,5л</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Гвозьдика</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Губка</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Зева</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Зерно фильтр</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Имбирный</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Какао 1кг</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Кедровые Орехи  </td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Клюквеный</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Кокосовый </td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Контейнера RK</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Корица Молотая</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Корица Пальчиковая </td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Кофе эспрессо №4</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Крышки 80</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Крышки 90</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Крышки Шейк</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Лайм</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Лента Кассовая 80на80</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Лента Терминал</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Лимон</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Ловушки</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Ложки</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Малина </td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Маракуйя</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Матча</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Мешалки</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Миндальный </td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Молоко 3,2%</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Мусорные 240л</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Мята</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Облепиховый</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Пакеты Майка</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Пергамент</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Перчатки </td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Подставка 2х</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Подставка 4х</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Пряный Чай 250г</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Салфетки </td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Сахар 1кг</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Сенча</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Сливки 11%</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Соевый </td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Стакан 0.1</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Стакан 0.2</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Стакан 0.3</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Стакан 0.4</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Стакан Шейк 0.4</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Стекломой</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Татни (12шт)</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Тоник </td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Трубочки</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Тряпка из микрофибры</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Тряпки половые </td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Фери</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Фильтр для чая</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Фильтры для Bovilor 50шт</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Фундучный</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Шиповник</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Шуманит </td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>ЭрлГрей</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>Ягодный</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>лёд</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>пемалюкс</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>сок ЯН</td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>фильры для чая </td><td><input type='number' min='0' value='0'></td></tr>
+<tr><td>цедра</td><td><input type='number' min='0' value='0'></td></tr>
+            </tbody>
+        </table>
+
+        <h3>Сиропы</h3>
+        <div id="syrup-block"></div>
+        <button type="button" class="add-btn" onclick="addSyrup()">+ Добавить сироп</button>
+
+        <h3>Топпинги</h3>
+        <div id="topping-block"></div>
+        <button type="button" class="add-btn" onclick="addTopping()">+ Добавить топпинг</button>
+
+        <button onclick="alert('Заказ будет отправлен на сервер')">Отправить заказ</button>
+    </div>
+
+    <script>
+        const syrups = ["Солёная карамель", "Карамель", "Ваниль", "Банан", "Шоколад", "Клубника", "Hazel Nut", "Фисташковый", "Маракуйя", "Лаванда", "Яблочный пирог", "Кокос", "Мята", "Малина", "Апельсин"];
+        const toppings = ["Топпинг Банан", "Топпинг Шоколад", "Топпинг Карамель", "Сгущенное молоко", "Мороженое"];
+
+        function addDropdown(containerId, optionsArray) {
+            const container = document.getElementById(containerId);
+            const div = document.createElement("div");
+            const select = document.createElement("select");
+            optionsArray.forEach(opt => {
+                const option = document.createElement("option");
+                option.text = opt;
+                select.add(option);
+            });
+            const qty = document.createElement("input");
+            qty.type = "number";
+            qty.min = "0";
+            qty.placeholder = "Количество";
+            qty.style.marginTop = "5px";
+            div.appendChild(select);
+            div.appendChild(qty);
+            container.appendChild(div);
+        }
+
+        function addSyrup() {
+            addDropdown("syrup-block", syrups);
+        }
+
+        function addTopping() {
+            addDropdown("topping-block", toppings);
+        }
+
+        window.onload = () => {
+            addSyrup();
+            addTopping();
+        };
+    </script>
+</body>
+</html>
