@@ -23,8 +23,8 @@ def create_doc(data):
     doc = Document()
     doc.add_heading("Приходная накладная", level=1)
     doc.add_paragraph(f"Дата и время: {date_str}")
-    doc.add_paragraph(f"Отправитель: {data.get('name', 'Не указано')}")
-    doc.add_paragraph(f"Телефон: {data.get('phone', 'Не указано')}")
+    doc.add_paragraph(f"Точка: {data.get('point', 'Не указано')}")
+    doc.add_paragraph(f"День недели: {data.get('day', 'Не указано')}")
     doc.add_paragraph("")
 
     table = doc.add_table(rows=1, cols=2)
@@ -36,21 +36,23 @@ def create_doc(data):
     for item in data.get("items", []):
         row_cells = table.add_row().cells
         row_cells[0].text = item.get("name", "")
-        row_cells[1].text = str(item.get("quantity", ""))
+        row_cells[1].text = str(item.get("qty", ""))
 
     doc.save(filepath)
     return filepath
 
 # Отправка документа в Telegram
 def send_to_telegram(filepath):
-    bot_token = "ВАШ_ТОКЕН"
-    chat_id = "ВАШ_CHAT_ID"
+    bot_token = os.environ.get("BOT_TOKEN")
+    chat_id = os.environ.get("CHAT_ID")
     url = f"https://api.telegram.org/bot{bot_token}/sendDocument"
+
     with open(filepath, 'rb') as doc_file:
         files = {'document': doc_file}
         data = {'chat_id': chat_id}
         response = requests.post(url, files=files, data=data)
-    return response.ok
+
+    return response.status_code == 200
 
 # Прием заказов
 @app.route("/order", methods=["POST"])
