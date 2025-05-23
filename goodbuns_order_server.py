@@ -12,7 +12,7 @@ CORS(app)
 
 # 💰 Цены
 prices = {
-     "Стакан 0.1": 200.00,
+    "Стакан 0.1": 200.00,
     "Стакан 0.2": 10.00,
     "Стакан 0.3": 10.00,
     "Стакан 0.4": 10.00,
@@ -51,13 +51,11 @@ prices = {
     "Подставка 4х": 320.00,
     "Молоко 3,2%": 1000.00,
     "Сливки 11%": 200.00,
-    "группа альтернативное молока": 0.00,
     "Кокосовый ": 190.00,
     "Миндальный ": 190.00,
     "Фундучный": 180.00,
     "Банановый": 180.00,
     "Соевый ": 180.00,
-    "группа ЧАЙ": 0.00,
     "Ягодный": 180.00,
     "Клюквеный": 180.00,
     "Облепиховый": 180.00,
@@ -72,7 +70,6 @@ prices = {
     "Апельсин": 10.00,
     "Лимон": 10.00,
     "Лайм": 15.00,
-    "Группа напитки ": 0.00,
     "БонАква 0.5 ": 700.00,
     "Кола 0.5": 800.00,
     "Мевер, Татни": 1000.00,
@@ -86,7 +83,7 @@ prices = {
     "Какао 1кг": 1500.00,
     "Кедровые Орехи  ": 1000.00,
     "Матча": 600.00,
-    "Гвозьдика": 50.00,
+    "Гвоздика": 50.00,
     "Бадьян ": 50.00,
     "цедра": 0.00,
     "Корица Пальчиковая ": 50.00,
@@ -95,6 +92,7 @@ prices = {
 }
 
 # 📊 Генерация Excel накладной
+
 def create_excel(data):
     now = datetime.now()
     date_str = now.strftime("%Y-%m-%d %H:%M")
@@ -105,15 +103,11 @@ def create_excel(data):
     ws = wb.active
     ws.title = "Накладная"
 
-    # Стили
     bold = Font(bold=True)
     center = Alignment(horizontal="center")
-    thin_border = Border(
-        left=Side(style='thin'), right=Side(style='thin'),
-        top=Side(style='thin'), bottom=Side(style='thin')
-    )
+    thin_border = Border(left=Side(style='thin'), right=Side(style='thin'),
+                         top=Side(style='thin'), bottom=Side(style='thin'))
 
-    # Заголовок и подзаголовок
     ws.merge_cells("A1:D1")
     ws["A1"] = "GOODBUNS · Приходная накладная"
     ws["A1"].font = Font(size=14, bold=True)
@@ -124,7 +118,6 @@ def create_excel(data):
     ws["A2"].font = Font(size=10, italic=True, color="666666")
     ws["A2"].alignment = center
 
-    # Инфо о заказе
     ws["A4"] = "Дата:"
     ws["B4"] = date_str
     ws["A5"] = "Точка:"
@@ -135,7 +128,6 @@ def create_excel(data):
     for row in range(4, 7):
         ws[f"A{row}"].font = bold
 
-    # Шапка таблицы
     start_row = 8
     headers = ["Наименование", "Количество", "Цена (₽)", "Сумма (₽)"]
     for col_num, header in enumerate(headers, 1):
@@ -146,15 +138,36 @@ def create_excel(data):
         cell.border = thin_border
         ws.column_dimensions[get_column_letter(col_num)].width = 25
 
-    # Товары
+    # специальные группы
+    syrup_names = [
+        "Солёная карамель", "Карамель", "Ваниль", "Банан", "Шоколад", "Клубника",
+        "Hazel Nut", "Фисташковый", "Маракуйя", "Лаванда", "Яблочный пирог",
+        "Кокос", "Мята", "Малина", "Апельсин"
+    ]
+
+    topping_names = [
+        "Топпинг Банан", "Топпинг Шоколад", "Топпинг Карамель",
+        "Сгущенное молоко", "Мороженое"
+    ]
+
     total = 0
     items = data.get("items", [])
     for i, item in enumerate(items):
         name = item["name"].strip()
         qty = int(item["qty"])
-        price = prices.get(name, 0)
+
+        if name in prices:
+            price = prices[name]
+        elif name in syrup_names:
+            price = 300
+        elif name in topping_names:
+            price = 200
+        else:
+            price = 0
+
         amount = qty * price
         total += amount
+
         for j, val in enumerate([name, qty, price, amount], 1):
             cell = ws.cell(row=start_row + 1 + i, column=j)
             cell.value = val
@@ -162,7 +175,6 @@ def create_excel(data):
             if j in [2, 3, 4]:
                 cell.alignment = center
 
-    # ИТОГО
     end_row = start_row + 1 + len(items)
     ws.cell(row=end_row, column=3).value = "ИТОГО"
     ws.cell(row=end_row, column=3).font = bold
@@ -170,7 +182,6 @@ def create_excel(data):
     ws.cell(row=end_row, column=4).font = bold
     ws.cell(row=end_row, column=4).alignment = center
 
-    # Подвал
     footer_row = end_row + 2
     ws.merge_cells(f"A{footer_row}:D{footer_row}")
     footer = ws[f"A{footer_row}"]
@@ -180,31 +191,3 @@ def create_excel(data):
 
     wb.save(filepath)
     return filepath
-
-# 📤 Отправка в Telegram
-def send_to_telegram(filepath):
-    bot_token = os.environ.get("BOT_TOKEN")
-    chat_id = os.environ.get("CHAT_ID")
-    url = f"https://api.telegram.org/bot{bot_token}/sendDocument"
-    with open(filepath, 'rb') as doc_file:
-        files = {'document': doc_file}
-        data = {'chat_id': chat_id}
-        response = requests.post(url, files=files, data=data)
-    return response.status_code == 200
-
-# 📬 Обработка заказа
-@app.route("/order", methods=["POST"])
-def handle_order():
-    data = request.get_json()
-    if not data:
-        return jsonify({"status": "error", "message": "Нет данных"}), 400
-    try:
-        filepath = create_excel(data)
-        sent = send_to_telegram(filepath)
-        return jsonify({"status": "ok", "saved": filepath, "telegram_sent": sent}), 200
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 500
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
-
