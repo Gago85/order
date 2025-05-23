@@ -1,69 +1,63 @@
-from flask import Flask, request, jsonify
-from docx import Document
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 from datetime import datetime
+from docx import Document
 import os
 import requests
 
 app = Flask(__name__)
 CORS(app)
 
-TELEGRAM_TOKEN = "7714393507:AAGSwESX_TAT7_IYsJWAiUXhCge69thfG9Y"
-CHAT_ID = "524359902"
-SAVE_PATH = "D:/ЗАКАЗ КОФЙЕН СКЛАД"
+# Главная страница
+@app.route("/", methods=["GET"])
+def home():
+    return "Сервер работает. Для отправки заказов используйте /order"
 
+# Создание Word-документа
 def create_doc(data):
-    date_str = datetime.now().strftime("%Y-%m-%d")
-    point = data.get("point", "Не указано")
-    day = data.get("day", "Не указано")
-    items = data.get("items", [])
-
-    folder = os.path.join(SAVE_PATH, date_str)
-    os.makedirs(folder, exist_ok=True)
-
-    filename = f"{date_str}_{point}_{day}.docx"
-    filepath = os.path.join(folder, filename)
+    now = datetime.now()
+    date_str = now.strftime("%Y-%m-%d %H-%M-%S")
+    filename = f"Приходная накладная - {date_str}.docx"
+    filepath = os.path.join("/tmp", filename)
 
     doc = Document()
-    doc.add_heading("ПРИХОДНАЯ НАКЛАДНАЯ", 0)
-    doc.add_paragraph(f"Дата: {date_str}")
-    doc.add_paragraph(f"Точка: {point}")
-    doc.add_paragraph(f"День: {day}")
+    doc.add_heading("Приходная накладная", level=1)
+    doc.add_paragraph(f"Дата и время: {date_str}")
+    doc.add_paragraph(f"Отправитель: {data.get('name', 'Не указано')}")
+    doc.add_paragraph(f"Телефон: {data.get('phone', 'Не указано')}")
     doc.add_paragraph("")
 
     table = doc.add_table(rows=1, cols=2)
-    table.style = "Table Grid"
+    table.style = 'Table Grid'
     hdr_cells = table.rows[0].cells
-    hdr_cells[0].text = "Наименование"
-    hdr_cells[1].text = "Количество"
+    hdr_cells[0].text = 'Наименование'
+    hdr_cells[1].text = 'Количество'
 
-    for item in items:
-        name = item.get("name")
-        qty = item.get("qty")
-        if name and qty:
-            row_cells = table.add_row().cells
-            row_cells[0].text = name
-            row_cells[1].text = str(qty)
+    for item in data.get("items", []):
+        row_cells = table.add_row().cells
+        row_cells[0].text = item.get("name", "")
+        row_cells[1].text = str(item.get("quantity", ""))
 
-    doc.add_paragraph("\nПринял: ____________________")
-    doc.add_paragraph("Выдал: ____________________")
     doc.save(filepath)
     return filepath
 
+# Отправка документа в Telegram
 def send_to_telegram(filepath):
-    with open(filepath, "rb") as f:
-        files = {'document': f}
-        url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendDocument"
-        data = {"chat_id": CHAT_ID, "caption": "🧾 Новый заказ"}
-        response = requests.post(url, data=data, files=files)
-        return response.ok
+    bot_token = "ВАШ_ТОКЕН"
+    chat_id = "ВАШ_CHAT_ID"
+    url = f"https://api.telegram.org/bot{bot_token}/sendDocument"
+    with open(filepath, 'rb') as doc_file:
+        files = {'document': doc_file}
+        data = {'chat_id': chat_id}
+        response = requests.post(url, files=files, data=data)
+    return response.ok
 
+# Прием заказов
 @app.route("/order", methods=["POST"])
 def handle_order():
     data = request.get_json()
     if not data:
         return jsonify({"status": "error", "message": "Нет данных"}), 400
-
     try:
         filepath = create_doc(data)
         sent = send_to_telegram(filepath)
@@ -73,3 +67,4 @@ def handle_order():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
+
