@@ -1,67 +1,205 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 from datetime import datetime
-from docx import Document
 import os
 import requests
+import openpyxl
+from openpyxl.styles import Font, Alignment, Border, Side
+from openpyxl.utils import get_column_letter
 
 app = Flask(__name__)
 CORS(app)
 
-# Главная страница
-@app.route("/", methods=["GET"])
-def home():
-    return "Сервер работает. Для отправки заказов используйте /order"
+# 💰 Цены
+prices = {
+     "Стакан 0.1": 200.00,
+    "Стакан 0.2": 10.00,
+    "Стакан 0.3": 10.00,
+    "Стакан 0.4": 10.00,
+    "Стакан Шейк 0.4": 270.00,
+    "Крышки 90": 200.00,
+    "Крышки 80": 180.00,
+    "Крышки Шейк": 100.00,
+    "Трубочки": 350.00,
+    "Мешалки": 300.00,
+    "Ложки": 120.00,
+    "Вилки": 120.00,
+    "Лента Кассовая 80на80": 600.00,
+    "Лента Терминал": 260.00,
+    "Пакеты Майка": 50.00,
+    "Мусорные 240л": 200.00,
+    "Стекломой": 100.00,
+    "Шуманит ": 150.00,
+    "Cafiza 1кг": 1200.00,
+    "Фери": 150.00,
+    "Белезна": 50.00,
+    "пемалюкс": 100.00,
+    "Ловушки": 350.00,
+    "Губка": 50.00,
+    "Фильтры для Bovilor 50шт": 400.00,
+    "фильры для чая": 250.00,
+    "Перчатки ": 300.00,
+    "Пергамент": 700.00,
+    "Тряпка из микрофибры": 40.00,
+    "Бумажные пакеты ": 2000.00,
+    "Салфетки ": 10.00,
+    "Зева": 200.00,
+    "Тряпки половые ": 165.00,
+    "Фильтр для чая": 235.00,
+    "Контейнера RK": 7.00,
+    "Подставка 2х": 220.00,
+    "Подставка 4х": 320.00,
+    "Молоко 3,2%": 1000.00,
+    "Сливки 11%": 200.00,
+    "группа альтернативное молока": 0.00,
+    "Кокосовый ": 190.00,
+    "Миндальный ": 190.00,
+    "Фундучный": 180.00,
+    "Банановый": 180.00,
+    "Соевый ": 180.00,
+    "группа ЧАЙ": 0.00,
+    "Ягодный": 180.00,
+    "Клюквеный": 180.00,
+    "Облепиховый": 180.00,
+    "Шиповник": 180.00,
+    "Имбирный": 180.00,
+    "маракуйя": 750.00,
+    "Малина ": 150.00,
+    "ЭрлГрей": 250.00,
+    "Сенча": 250.00,
+    "Мята": 50.00,
+    "Пряный Чай 250г": 950.00,
+    "Апельсин": 10.00,
+    "Лимон": 10.00,
+    "Лайм": 15.00,
+    "Группа напитки ": 0.00,
+    "БонАква 0.5 ": 700.00,
+    "Кола 0.5": 800.00,
+    "Мевер, Татни": 1000.00,
+    "Апельсиновый сок 1л": 71.00,
+    "Тоник ": 100.00,
+    "Вода Газ 1,5л": 60.00,
+    "Сиропы  все по": 300.00,
+    "Кофе эспрессо №4": 2050.00,
+    "Зерно фильтр": 850.00,
+    "Арахисовая Паста": 250.00,
+    "Какао 1кг": 1500.00,
+    "Кедровые Орехи  ": 1000.00,
+    "Матча": 600.00,
+    "Гвозьдика": 50.00,
+    "Бадьян ": 50.00,
+    "цедра": 0.00,
+    "Корица Пальчиковая ": 50.00,
+    "Корица Молотая": 50.00,
+    "Сахар 1кг": 1500.00,
+}
 
-# Создание Word-документа
-def create_doc(data):
+# 📊 Генерация Excel накладной
+def create_excel(data):
     now = datetime.now()
-    date_str = now.strftime("%Y-%m-%d %H-%M-%S")
-    filename = f"Приходная накладная - {date_str}.docx"
+    date_str = now.strftime("%Y-%m-%d %H:%M")
+    filename = f"Приходная накладная - {date_str}.xlsx"
     filepath = os.path.join("/tmp", filename)
 
-    doc = Document()
-    doc.add_heading("Приходная накладная", level=1)
-    doc.add_paragraph(f"Дата и время: {date_str}")
-    doc.add_paragraph(f"Точка: {data.get('point', 'Не указано')}")
-    doc.add_paragraph(f"День недели: {data.get('day', 'Не указано')}")
-    doc.add_paragraph("")
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Накладная"
 
-    table = doc.add_table(rows=1, cols=2)
-    table.style = 'Table Grid'
-    hdr_cells = table.rows[0].cells
-    hdr_cells[0].text = 'Наименование'
-    hdr_cells[1].text = 'Количество'
+    # Стили
+    bold = Font(bold=True)
+    center = Alignment(horizontal="center")
+    thin_border = Border(
+        left=Side(style='thin'), right=Side(style='thin'),
+        top=Side(style='thin'), bottom=Side(style='thin')
+    )
 
-    for item in data.get("items", []):
-        row_cells = table.add_row().cells
-        row_cells[0].text = item.get("name", "")
-        row_cells[1].text = str(item.get("qty", ""))
+    # Заголовок и подзаголовок
+    ws.merge_cells("A1:D1")
+    ws["A1"] = "GOODBUNS · Приходная накладная"
+    ws["A1"].font = Font(size=14, bold=True)
+    ws["A1"].alignment = center
 
-    doc.save(filepath)
+    ws.merge_cells("A2:D2")
+    ws["A2"] = "Документ сгенерирован автоматически через систему заказов GoodBuns"
+    ws["A2"].font = Font(size=10, italic=True, color="666666")
+    ws["A2"].alignment = center
+
+    # Инфо о заказе
+    ws["A4"] = "Дата:"
+    ws["B4"] = date_str
+    ws["A5"] = "Точка:"
+    ws["B5"] = data.get("point", "")
+    ws["A6"] = "День недели:"
+    ws["B6"] = data.get("day", "")
+
+    for row in range(4, 7):
+        ws[f"A{row}"].font = bold
+
+    # Шапка таблицы
+    start_row = 8
+    headers = ["Наименование", "Количество", "Цена (₽)", "Сумма (₽)"]
+    for col_num, header in enumerate(headers, 1):
+        cell = ws.cell(row=start_row, column=col_num)
+        cell.value = header
+        cell.font = bold
+        cell.alignment = center
+        cell.border = thin_border
+        ws.column_dimensions[get_column_letter(col_num)].width = 25
+
+    # Товары
+    total = 0
+    items = data.get("items", [])
+    for i, item in enumerate(items):
+        name = item["name"].strip()
+        qty = int(item["qty"])
+        price = prices.get(name, 0)
+        amount = qty * price
+        total += amount
+        for j, val in enumerate([name, qty, price, amount], 1):
+            cell = ws.cell(row=start_row + 1 + i, column=j)
+            cell.value = val
+            cell.border = thin_border
+            if j in [2, 3, 4]:
+                cell.alignment = center
+
+    # ИТОГО
+    end_row = start_row + 1 + len(items)
+    ws.cell(row=end_row, column=3).value = "ИТОГО"
+    ws.cell(row=end_row, column=3).font = bold
+    ws.cell(row=end_row, column=4).value = total
+    ws.cell(row=end_row, column=4).font = bold
+    ws.cell(row=end_row, column=4).alignment = center
+
+    # Подвал
+    footer_row = end_row + 2
+    ws.merge_cells(f"A{footer_row}:D{footer_row}")
+    footer = ws[f"A{footer_row}"]
+    footer.value = "Спасибо за заказ! Увидимся на смене ☕"
+    footer.font = Font(italic=True, color="888888")
+    footer.alignment = center
+
+    wb.save(filepath)
     return filepath
 
-# Отправка документа в Telegram
+# 📤 Отправка в Telegram
 def send_to_telegram(filepath):
     bot_token = os.environ.get("BOT_TOKEN")
     chat_id = os.environ.get("CHAT_ID")
     url = f"https://api.telegram.org/bot{bot_token}/sendDocument"
-
     with open(filepath, 'rb') as doc_file:
         files = {'document': doc_file}
         data = {'chat_id': chat_id}
         response = requests.post(url, files=files, data=data)
-
     return response.status_code == 200
 
-# Прием заказов
+# 📬 Обработка заказа
 @app.route("/order", methods=["POST"])
 def handle_order():
     data = request.get_json()
     if not data:
         return jsonify({"status": "error", "message": "Нет данных"}), 400
     try:
-        filepath = create_doc(data)
+        filepath = create_excel(data)
         sent = send_to_telegram(filepath)
         return jsonify({"status": "ok", "saved": filepath, "telegram_sent": sent}), 200
     except Exception as e:
