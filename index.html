@@ -52,28 +52,37 @@
             font-weight: bold;
             margin-top: 20px;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+        th {
+            background: #eee;
+        }
         .dropdown-group {
             display: flex;
             gap: 10px;
             margin-bottom: 10px;
         }
-        .dropdown-group select,
-        .dropdown-group input {
-            flex: 1;
+        .dropdown-group select::before {
+            content: "\25BC ";
+        }
+        .dropdown-hint {
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 5px;
         }
     </style>
 </head>
 <body>
-<div class="container" id="auth">
-    <h2>Вход в систему</h2>
-    <p>Введите PIN-код:</p>
-    <input type="text" id="access-code" placeholder="PIN">
-    <button onclick="checkCode()">Войти</button>
-</div>
-
-<div class="container" id="main-form" style="display:none;">
+<div class="container">
     <img src="https://storage.googleapis.com/personal-web-bucket-public/goodbuns_logo.png" alt="GoodBuns Logo" class="logo">
     <h1>GoodBuns Заказ</h1>
+
     <label>Выберите точку:</label>
     <select id="point">
         <option>Магистраль</option>
@@ -92,45 +101,106 @@
         <option>Пт</option>
     </select>
 
+    <h3 class="section-title">Основной список</h3>
+    <table id="order-table">
+        <thead><tr><th>Наименование</th><th>Кол-во</th></tr></thead>
+        <tbody id="order-body">
+            <!-- Сюда будут динамически подставлены строки -->
+          <tr><td>Стакан 0.1</td><td><input type="number" name="Стакан 0.1" min="0" value="0"></td></tr>
+<tr><td>Стакан 0.2</td><td><input type="number" name="Стакан 0.2" min="0" value="0"></td></tr>
+<tr><td>Стакан 0.3</td><td><input type="number" name="Стакан 0.3" min="0" value="0"></td></tr>
+<tr><td>Стакан 0.4</td><td><input type="number" name="Стакан 0.4" min="0" value="0"></td></tr>
+<tr><td>Стакан Шейк 0.4</td><td><input type="number" name="Стакан Шейк 0.4" min="0" value="0"></td></tr>
+<tr><td>Крышки 90</td><td><input type="number" name="Крышки 90" min="0" value="0"></td></tr>
+<tr><td>Крышки 80</td><td><input type="number" name="Крышки 80" min="0" value="0"></td></tr>
+<tr><td>Крышки Шейк</td><td><input type="number" name="Крышки Шейк" min="0" value="0"></td></tr>
+<tr><td>Трубочки</td><td><input type="number" name="Трубочки" min="0" value="0"></td></tr>
+<tr><td>Мешалки</td><td><input type="number" name="Мешалки" min="0" value="0"></td></tr>
+<tr><td>Ложки</td><td><input type="number" name="Ложки" min="0" value="0"></td></tr>
+<tr><td>Вилки</td><td><input type="number" name="Вилки" min="0" value="0"></td></tr>
+<tr><td>Лента Кассовая 80на80</td><td><input type="number" name="Лента Кассовая 80на80" min="0" value="0"></td></tr>
+<tr><td>Лента Терминал</td><td><input type="number" name="Лента Терминал" min="0" value="0"></td></tr>
+<tr><td>Пакеты Майка</td><td><input type="number" name="Пакеты Майка" min="0" value="0"></td></tr>
+<tr><td>Мусорные 240л</td><td><input type="number" name="Мусорные 240л" min="0" value="0"></td></tr>
+<tr><td>Стекломой</td><td><input type="number" name="Стекломой" min="0" value="0"></td></tr>
+<tr><td>Шуманит</td><td><input type="number" name="Шуманит" min="0" value="0"></td></tr>
+<tr><td>Cafiza 1кг</td><td><input type="number" name="Cafiza 1кг" min="0" value="0"></td></tr>
+<tr><td>Фери</td><td><input type="number" name="Фери" min="0" value="0"></td></tr>
+<tr><td>Белезна</td><td><input type="number" name="Белезна" min="0" value="0"></td></tr>
+<tr><td>пемалюкс</td><td><input type="number" name="пемалюкс" min="0" value="0"></td></tr>
+<tr><td>Ловушки</td><td><input type="number" name="Ловушки" min="0" value="0"></td></tr>
+<tr><td>Губка</td><td><input type="number" name="Губка" min="0" value="0"></td></tr>
+<tr><td>Фильтры для Bovilor 50шт</td><td><input type="number" name="Фильтры для Bovilor 50шт" min="0" value="0"></td></tr>
+<tr><td>Перчатки</td><td><input type="number" name="Перчатки" min="0" value="0"></td></tr>
+<tr><td>Пергамент</td><td><input type="number" name="Пергамент" min="0" value="0"></td></tr>
+<tr><td>Тряпка из микрофибры</td><td><input type="number" name="Тряпка из микрофибры" min="0" value="0"></td></tr>
+<tr><td>Бумажные пакеты</td><td><input type="number" name="Бумажные пакеты" min="0" value="0"></td></tr>
+<tr><td>Салфетки</td><td><input type="number" name="Салфетки" min="0" value="0"></td></tr>
+<tr><td>Зева</td><td><input type="number" name="Зева" min="0" value="0"></td></tr>
+<tr><td>Тряпки половые</td><td><input type="number" name="Тряпки половые" min="0" value="0"></td></tr>
+<tr><td>Фильтр для чая</td><td><input type="number" name="Фильтр для чая" min="0" value="0"></td></tr>
+<tr><td>Контейнера RK</td><td><input type="number" name="Контейнера RK" min="0" value="0"></td></tr>
+<tr><td>Подставка 2х</td><td><input type="number" name="Подставка 2х" min="0" value="0"></td></tr>
+<tr><td>Подставка 4х</td><td><input type="number" name="Подставка 4х" min="0" value="0"></td></tr>
+<tr><td>Молоко 3,2%</td><td><input type="number" name="Молоко 3,2%" min="0" value="0"></td></tr>
+<tr><td>Сливки 11%</td><td><input type="number" name="Сливки 11%" min="0" value="0"></td></tr>
+<tr><td>группа альтернативное молока</td><td><input type="number" name="группа альтернативное молока" min="0" value="0"></td></tr>
+<tr><td>Кокосовый</td><td><input type="number" name="Кокосовый" min="0" value="0"></td></tr>
+<tr><td>Миндальный</td><td><input type="number" name="Миндальный" min="0" value="0"></td></tr>
+<tr><td>Фундучный</td><td><input type="number" name="Фундучный" min="0" value="0"></td></tr>
+<tr><td>Банановый</td><td><input type="number" name="Банановый" min="0" value="0"></td></tr>
+<tr><td>Соевый</td><td><input type="number" name="Соевый" min="0" value="0"></td></tr>
+<tr><td>группа ЧАЙ</td><td><input type="number" name="группа ЧАЙ" min="0" value="0"></td></tr>
+<tr><td>Ягодный</td><td><input type="number" name="Ягодный" min="0" value="0"></td></tr>
+<tr><td>Клюквеный</td><td><input type="number" name="Клюквеный" min="0" value="0"></td></tr>
+<tr><td>Облепиховый</td><td><input type="number" name="Облепиховый" min="0" value="0"></td></tr>
+<tr><td>Шиповник</td><td><input type="number" name="Шиповник" min="0" value="0"></td></tr>
+<tr><td>Имбирный</td><td><input type="number" name="Имбирный" min="0" value="0"></td></tr>
+<tr><td>маракуйя</td><td><input type="number" name="маракуйя" min="0" value="0"></td></tr>
+<tr><td>Малина</td><td><input type="number" name="Малина" min="0" value="0"></td></tr>
+<tr><td>ЭрлГрей</td><td><input type="number" name="ЭрлГрей" min="0" value="0"></td></tr>
+<tr><td>Сенча</td><td><input type="number" name="Сенча" min="0" value="0"></td></tr>
+<tr><td>Мята</td><td><input type="number" name="Мята" min="0" value="0"></td></tr>
+<tr><td>Пряный Чай 250г</td><td><input type="number" name="Пряный Чай 250г" min="0" value="0"></td></tr>
+<tr><td>Апельсин</td><td><input type="number" name="Апельсин" min="0" value="0"></td></tr>
+<tr><td>Лимон</td><td><input type="number" name="Лимон" min="0" value="0"></td></tr>
+<tr><td>Лайм</td><td><input type="number" name="Лайм" min="0" value="0"></td></tr>
+<tr><td>Группа напитки</td><td><input type="number" name="Группа напитки" min="0" value="0"></td></tr>
+<tr><td>БонАква 0.5</td><td><input type="number" name="БонАква 0.5" min="0" value="0"></td></tr>
+<tr><td>Кола 0.5</td><td><input type="number" name="Кола 0.5" min="0" value="0"></td></tr>
+<tr><td>Мевер, Татни</td><td><input type="number" name="Мевер, Татни" min="0" value="0"></td></tr>
+<tr><td>Апельсиновый сок 1л</td><td><input type="number" name="Апельсиновый сок 1л" min="0" value="0"></td></tr>
+<tr><td>Тоник</td><td><input type="number" name="Тоник" min="0" value="0"></td></tr>
+<tr><td>Вода Газ 1,5л</td><td><input type="number" name="Вода Газ 1,5л" min="0" value="0"></td></tr>
+<tr><td>Кофе эспрессо №4</td><td><input type="number" name="Кофе эспрессо №4" min="0" value="0"></td></tr>
+<tr><td>Зерно фильтр</td><td><input type="number" name="Зерно фильтр" min="0" value="0"></td></tr>
+<tr><td>Арахисовая Паста</td><td><input type="number" name="Арахисовая Паста" min="0" value="0"></td></tr>
+<tr><td>Какао 1кг</td><td><input type="number" name="Какао 1кг" min="0" value="0"></td></tr>
+<tr><td>Кедровые Орехи</td><td><input type="number" name="Кедровые Орехи" min="0" value="0"></td></tr>
+<tr><td>Матча</td><td><input type="number" name="Матча" min="0" value="0"></td></tr>
+<tr><td>Гвоздика</td><td><input type="number" name="Гвоздика" min="0" value="0"></td></tr>
+<tr><td>Бадьян</td><td><input type="number" name="Бадьян" min="0" value="0"></td></tr>
+<tr><td>цедра</td><td><input type="number" name="цедра" min="0" value="0"></td></tr>
+<tr><td>Корица Пальчиковая</td><td><input type="number" name="Корица Пальчиковая" min="0" value="0"></td></tr>
+<tr><td>Корица Молотая</td><td><input type="number" name="Корица Молотая" min="0" value="0"></td></tr>
+<tr><td>Сахар 1кг</td><td><input type="number" name="Сахар 1кг" min="0" value="0"></td></tr>
+        </tbody>
+    </table>
+
     <h3 class="section-title">Сиропы</h3>
+    <div class="dropdown-hint">Выберите сироп и укажите количество</div>
     <div id="syrup-block"></div>
     <button type="button" class="add-btn" onclick="addDropdown('syrup-block', syrups)">+ Добавить сироп</button>
 
     <h3 class="section-title">Топпинги</h3>
+    <div class="dropdown-hint">Выберите топпинг и укажите количество</div>
     <div id="topping-block"></div>
     <button type="button" class="add-btn" onclick="addDropdown('topping-block', toppings)">+ Добавить топпинг</button>
 
-    <h3 class="section-title">Альтернативное молоко</h3>
-    <div id="milk-block"></div>
-    <button type="button" class="add-btn" onclick="addDropdown('milk-block', milk)">+ Добавить молоко</button>
-
-    <h3 class="section-title">Чай</h3>
-    <div id="tea-block"></div>
-    <button type="button" class="add-btn" onclick="addDropdown('tea-block', tea)">+ Добавить чай</button>
-
     <h3 class="section-title">Напитки</h3>
+    <div class="dropdown-hint">Выберите напиток и укажите количество</div>
     <div id="drink-block"></div>
     <button type="button" class="add-btn" onclick="addDropdown('drink-block', drinks)">+ Добавить напиток</button>
-
-    <h3 class="section-title">Стаканы и крышки</h3>
-    <div id="cups-block"></div>
-    <button type="button" class="add-btn" onclick="addDropdown('cups-block', cups)">+ Добавить стакан/крышку</button>
-
-    <h3 class="section-title">Химия</h3>
-    <div id="chemistry-block"></div>
-    <button type="button" class="add-btn" onclick="addDropdown('chemistry-block', chemistry)">+ Добавить</button>
-
-    <h3 class="section-title">Уборочный инвентарь</h3>
-    <div id="cleaning-block"></div>
-    <button type="button" class="add-btn" onclick="addDropdown('cleaning-block', cleaning)">+ Добавить</button>
-
-    <h3 class="section-title">Расходники</h3>
-    <div id="supplies-block"></div>
-    <button type="button" class="add-btn" onclick="addDropdown('supplies-block', supplies)">+ Добавить</button>
-
-    <h3 class="section-title">Ингредиенты</h3>
-    <div id="ingredients-block"></div>
-    <button type="button" class="add-btn" onclick="addDropdown('ingredients-block', ingredients)">+ Добавить</button>
 
     <button onclick="submitOrder()" class="add-btn">Отправить заказ</button>
 </div>
@@ -138,34 +208,20 @@
 <script>
     const syrups = ["Солёная карамель", "Карамель", "Ваниль", "Банан", "Шоколад", "Клубника", "Hazel Nut", "Фисташковый", "Маракуйя", "Лаванда", "Яблочный пирог", "Кокос", "Мята", "Малина", "Апельсин"];
     const toppings = ["Топпинг Банан", "Топпинг Шоколад", "Топпинг Карамель", "Сгущенное молоко", "Мороженое"];
-    const milk = ["Кокосовое", "Соевое", "Миндальное", "Фундучное"];
-    const tea = ["Матча", "Ягодный", "Клюквенный", "Облепиховый", "Шиповник", "Имбирный", "Маракуйя", "Малина", "ЭрлГрей", "Сенча", "Мята", "Пряный Чай 250г"];
     const drinks = ["БонАква 0.5", "Кола 0.5", "Мевер, Татни", "Апельсиновый сок 1л", "Тоник", "Вода Газ 1,5л"];
-    const cups = ["Стакан 0.2", "Стакан 0.3", "Стакан 0.4", "Стакан Шейк 0.4", "Крышки 80", "Крышки 90", "Крышки Шейк"];
-    const chemistry = ["Мусорные 240л", "Стекломой", "Cafiza 1кг", "Губка"];
-    const cleaning = ["Тряпки половые", "Насадка для швабры", "Веник", "Совок"];
-    const supplies = ["Трубочки", "Пакеты Майка", "Мешалки", "Ложки", "Вилки", "Бумажные пакеты 1к", "Салфетки шт.", "Зева уп.", "Контейнера RK 50шт.", "Подставка 2х 50", "Подставка 4х 50шт.", "Пергамент", "Тряпка из микрофибры", "Фильтры для Bovilor 50шт", "Лента Кассовая 80на80"];
-    const ingredients = ["Гвоздика", "Бадьян", "Цедра", "Корица Пальчиковая", "Корица Молотая", "Сахар 1кг", "Кофе эспрессо №4", "Зерно фильтр", "Арахисовая Паста", "Какао 1кг", "Кедровые Орехи"];
 
-    const pinMap = {
-        "1111": "Магистраль",
-        "2222": "Омега",
-        "3333": "Гефест",
-        "4444": "Черри"
+    const mainItems = [
+        "Стакан 0.1", "Стакан 0.2", "Стакан 0.3", "Стакан 0.4", "Стакан Шейк 0.4", "Крышки 90", "Крышки 80", "Крышки Шейк", "Трубочки", "Мешалки", "Ложки", "Вилки", "Лента Кассовая 80на80", "Лента Терминал", "Пакеты Майка", "Мусорные 240л", "Стекломой", "Шуманит", "Cafiza 1кг", "Фери", "Белезна", "пемалюкс", "Ловушки", "Губка", "Фильтры для Bovilor 50шт", "фильры для чая", "Перчатки", "Пергамент", "Тряпка из микрофибры", "Бумажные пакеты", "Салфетки", "Зева", "Тряпки половые", "Фильтр для чая", "Контейнера RK", "Подставка 2х", "Подставка 4х", "Молоко 3,2%", "Сливки 11%", "группа альтернативное молока", "Кокосовый", "Миндальный", "Фундучный", "Банановый", "Соевый", "группа ЧАЙ", "Ягодный", "Клюквеный", "Облепиховый", "Шиповник", "Имбирный", "маракуйя", "Малина", "ЭрлГрей", "Сенча", "Мята", "Пряный Чай 250г", "Апельсин", "Лимон", "Лайм", "Группа напитки", "БонАква 0.5", "Кола 0.5", "Мевер, Татни", "Апельсиновый сок 1л", "Тоник", "Вода Газ 1,5л", "Кофе эспрессо №4", "Зерно фильтр", "Арахисовая Паста", "Какао 1кг", "Кедровые Орехи", "Матча", "Гвозьдика", "Бадьян", "цедра", "Корица Пальчиковая", "Корица Молотая", "Сахар 1кг"
+    ];
+
+    window.onload = () => {
+        const tbody = document.getElementById("order-body");
+        mainItems.forEach(name => {
+            const row = document.createElement("tr");
+            row.innerHTML = `<td>${name}</td><td><input type="number" name="${name}" min="0" value="0"></td>`;
+            tbody.appendChild(row);
+        });
     };
-
-    function checkCode() {
-        const input = document.getElementById("access-code").value.trim();
-        const point = pinMap[input];
-
-        if (point) {
-            document.getElementById("auth").style.display = "none";
-            document.getElementById("main-form").style.display = "block";
-            document.getElementById("point").value = point;
-        } else {
-            alert("❌ Неверный PIN-код");
-        }
-    }
 
     function addDropdown(containerId, optionsArray) {
         const container = document.getElementById(containerId);
@@ -194,11 +250,15 @@
         const day = document.getElementById("day").value;
         const items = [];
 
-        [
-            "syrup-block", "topping-block", "milk-block", "tea-block",
-            "drink-block", "cups-block", "chemistry-block", "cleaning-block",
-            "supplies-block", "ingredients-block"
-        ].forEach(id => {
+        document.querySelectorAll("#order-body tr").forEach(row => {
+            const name = row.children[0].innerText;
+            const qty = row.children[1].children[0].value;
+            if (qty && parseInt(qty) > 0) {
+                items.push({ name, qty });
+            }
+        });
+
+        ["syrup-block", "topping-block", "drink-block"].forEach(id => {
             document.querySelectorAll(`#${id} .dropdown-group`).forEach(div => {
                 const name = div.children[0].value;
                 const qty = div.children[1].value;
