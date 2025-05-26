@@ -67,7 +67,7 @@ prices = {
     "Сенча": 250.00,
     "Мята": 50.00,
     "Пряный Чай 250г": 950.00,
-    "СВ Апельсин": 10.00,
+    "Апельсин": 10.00,
     "Лимон": 10.00,
     "Лайм": 15.00,
     "БонАква 0.5": 700.00,
@@ -76,7 +76,6 @@ prices = {
     "Апельсиновый сок 1л": 71.00,
     "Тоник 1 банка": 100.00,
     "Вода Газ 1,5л": 60.00,
-    "Сиропы  все по": 300.00,
     "Кофе эспрессо №4": 2050.00,
     "Зерно фильтр": 850.00,
     "Арахисовая Паста": 250.00,
@@ -84,37 +83,30 @@ prices = {
     "Кедровые Орехи": 1000.00,
     "Матча": 600.00,
     "Гвоздика": 50.00,
-    "Бадьян ": 50.00,
+    "Бадьян": 50.00,
     "цедра": 0.00,
     "Корица Пальчиковая": 50.00,
     "Корица Молотая": 50.00,
     "Сахар 1кг": 1500.00,
     "Солёная карамель": 300.00,
     "Карамель": 300.00,
-    "Солёная карамель": 300.00,
+    "Ваниль": 300.00,
     "Банан": 300.00,
     "Шоколад": 300.00,
     "Клубника": 300.00,
     "Hazel Nut": 300.00,
     "Фисташковый": 300.00,
-    "Маракуйя": 300.00,
     "Лаванда": 300.00,
     "Яблочный пирог": 300.00,
     "Кокос": 300.00,
-    "Мята": 300.00,
-    "Малина": 300.00,
-    "Апельсин": 300.00,
     "Топпинг Банан": 200.00,
     "Топпинг Шоколад": 200.00,
     "Топпинг Карамель": 200.00,
     "Сгущенное молоко": 200.00,
-    "Мороженое": 200.00,
-
-
+    "Мороженое": 200.00
 }
 
 # 📊 Генерация Excel накладной
-
 def create_excel(data):
     now = datetime.now()
     date_str = now.strftime("%Y-%m-%d %H:%M")
@@ -127,8 +119,7 @@ def create_excel(data):
 
     bold = Font(bold=True)
     center = Alignment(horizontal="center")
-    thin_border = Border(left=Side(style='thin'), right=Side(style='thin'),
-                         top=Side(style='thin'), bottom=Side(style='thin'))
+    thin_border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
 
     ws.merge_cells("A1:D1")
     ws["A1"] = "GOODBUNS · Приходная накладная"
@@ -160,33 +151,12 @@ def create_excel(data):
         cell.border = thin_border
         ws.column_dimensions[get_column_letter(col_num)].width = 25
 
-    # специальные группы
-    syrup_names = [
-        "Солёная карамель", "Карамель", "Ваниль", "Банан", "Шоколад", "Клубника",
-        "Hazel Nut", "Фисташковый", "Маракуйя", "Лаванда", "Яблочный пирог",
-        "Кокос", "Мята", "Малина", "Апельсин"
-    ]
-
-    topping_names = [
-        "Топпинг Банан", "Топпинг Шоколад", "Топпинг Карамель",
-        "Сгущенное молоко", "Мороженое"
-    ]
-
     total = 0
     items = data.get("items", [])
     for i, item in enumerate(items):
         name = item["name"].strip()
         qty = int(item["qty"])
-
-        if name in prices:
-            price = prices[name]
-        elif name in syrup_names:
-            price = 300
-        elif name in topping_names:
-            price = 200
-        else:
-            price = 0
-
+        price = prices.get(name, 0)
         amount = qty * price
         total += amount
 
@@ -213,3 +183,30 @@ def create_excel(data):
 
     wb.save(filepath)
     return filepath
+
+# 📤 Отправка в Telegram
+def send_to_telegram(filepath):
+    bot_token = os.environ.get("BOT_TOKEN")
+    chat_id = os.environ.get("CHAT_ID")
+    url = f"https://api.telegram.org/bot{bot_token}/sendDocument"
+    with open(filepath, 'rb') as doc_file:
+        files = {'document': doc_file}
+        data = {'chat_id': chat_id}
+        response = requests.post(url, files=files, data=data)
+    return response.status_code == 200
+
+# 📬 Обработка заказа
+@app.route("/order", methods=["POST"])
+def handle_order():
+    data = request.get_json()
+    if not data:
+        return jsonify({"status": "error", "message": "Нет данных"}), 400
+    try:
+        filepath = create_excel(data)
+        sent = send_to_telegram(filepath)
+        return jsonify({"status": "ok", "saved": filepath, "telegram_sent": sent}), 200
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=10000)
