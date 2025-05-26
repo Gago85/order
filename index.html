@@ -64,7 +64,14 @@
     </style>
 </head>
 <body>
-<div class="container">
+<div class="container" id="auth-block">
+    <h2>Вход в систему</h2>
+    <p>Введите PIN-код для доступа:</p>
+    <input type="text" id="pin-input" placeholder="Введите PIN">
+    <button onclick="checkPin()">Войти</button>
+</div>
+
+<div class="container" id="main-form" style="display:none;">
     <img src="https://storage.googleapis.com/personal-web-bucket-public/goodbuns_logo.png" alt="GoodBuns Logo" class="logo">
     <h1>GoodBuns Заказ</h1>
     <label>Выберите точку:</label>
@@ -129,74 +136,23 @@
 </div>
 
 <script>
-    const syrups = ["Солёная карамель", "Карамель", "Ваниль", "Банан", "Шоколад", "Клубника", "Hazel Nut", "Фисташковый", "Маракуйя", "Лаванда", "Яблочный пирог", "Кокос", "Мята", "Малина", "Апельсин"];
-    const toppings = ["Топпинг Банан", "Топпинг Шоколад", "Топпинг Карамель", "Сгущенное молоко", "Мороженое"];
-    const milk = ["Кокосовое", "Соевое", "Миндальное", "Фундучное"];
-    const tea = ["Матча", "Ягодный", "Клюквенный", "Облепиховый", "Шиповник", "Имбирный", "Маракуйя", "Малина", "ЭрлГрей", "Сенча", "Мята", "Пряный Чай 250г"];
-    const drinks = ["БонАква 0.5", "Кола 0.5", "Мевер, Татни", "Апельсиновый сок 1л", "Тоник", "Вода Газ 1,5л"];
-    const cups = ["Стакан 0.2", "Стакан 0.3", "Стакан 0.4", "Стакан Шейк 0.4", "Крышки 80", "Крышки 90", "Крышки Шейк"];
-    const chemistry = ["Мусорные 240л", "Стекломой", "Cafiza 1кг", "Губка"];
-    const cleaning = ["Тряпки половые", "Насадка для швабры", "Веник", "Совок"];
-    const supplies = ["Трубочки", "Пакеты Майка", "Мешалки", "Ложки", "Вилки", "Бумажные пакеты 1к", "Салфетки шт.", "Зева уп.", "Контейнера RK 50шт.", "Подставка 2х 50", "Подставка 4х 50шт.", "Пергамент", "Тряпка из микрофибры", "Фильтры для Bovilor 50шт", "Лента Кассовая 80на80"];
-    const ingredients = ["Гвоздика", "Бадьян", "Цедра", "Корица Пальчиковая", "Корица Молотая", "Сахар 1кг", "Кофе эспрессо №4", "Зерно фильтр", "Арахисовая Паста", "Какао 1кг", "Кедровые Орехи"];
+    const pins = {
+        "1111": "Магистраль",
+        "2222": "Омега",
+        "3333": "Гефест",
+        "4444": "Черри",
+        "5555": "Холл"
+    };
 
-    function addDropdown(containerId, optionsArray) {
-        const container = document.getElementById(containerId);
-        const div = document.createElement("div");
-        div.className = "dropdown-group";
-
-        const select = document.createElement("select");
-        optionsArray.forEach(opt => {
-            const option = document.createElement("option");
-            option.text = opt;
-            select.add(option);
-        });
-
-        const qty = document.createElement("input");
-        qty.type = "number";
-        qty.min = "0";
-        qty.placeholder = "Количество";
-
-        div.appendChild(select);
-        div.appendChild(qty);
-        container.appendChild(div);
-    }
-
-    function submitOrder() {
-        const point = document.getElementById("point").value;
-        const day = document.getElementById("day").value;
-        const items = [];
-
-        [
-            "syrup-block", "topping-block", "milk-block", "tea-block",
-            "drink-block", "cups-block", "chemistry-block", "cleaning-block",
-            "supplies-block", "ingredients-block"
-        ].forEach(id => {
-            document.querySelectorAll(`#${id} .dropdown-group`).forEach(div => {
-                const name = div.children[0].value;
-                const qty = div.children[1].value;
-                if (qty && parseInt(qty) > 0) {
-                    items.push({ name, qty });
-                }
-            });
-        });
-
-        fetch("https://server-o00c.onrender.com/order", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ point, day, items })
-        })
-        .then(res => res.json())
-        .then(data => {
-            alert("✅ Заказ отправлен!");
-            console.log(data);
-        })
-        .catch(err => {
-            alert("❌ Ошибка при отправке заказа!");
-            console.error(err);
-        });
+    function checkPin() {
+        const input = document.getElementById("pin-input").value.trim();
+        if (pins[input]) {
+            document.getElementById("auth-block").style.display = "none";
+            document.getElementById("main-form").style.display = "block";
+            document.getElementById("point").value = pins[input];
+        } else {
+            alert("❌ Неверный PIN-код");
+        }
     }
 </script>
 </body>
