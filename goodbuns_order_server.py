@@ -245,6 +245,3 @@ def send_telegram_text(chat_id, text):
     url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
     data = {"chat_id": chat_id, "text": text}
     requests.post(url, data=data)
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
