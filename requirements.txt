@@ -3,3 +3,4 @@ flask-cors
 python-docx
 requests
 openpyxl
+gunicorn
