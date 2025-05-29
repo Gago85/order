@@ -208,9 +208,19 @@ def handle_order():
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
-# 🧠 Обработка Telegram Webhook (/start, PIN)
-@app.route(f"/webhook/{os.environ.get('BOT_TOKEN')}", methods=["POST"])
-def telegram_webhook():
+# ☕️ Обработка Telegram webhook
+pins = {
+    "1111": "Магистраль Плаза",
+    "2222": "Омега Плаза",
+    "3333": "Черри Тауэр",
+    "4444": "Гефест"
+}
+
+@app.route("/webhook/<token>", methods=["POST"])
+def telegram_webhook(token):
+    if token != os.environ.get("BOT_TOKEN"):
+        return jsonify({"status": "unauthorized"}), 403
+
     data = request.get_json()
     if not data or "message" not in data:
         return jsonify({"status": "ignored"}), 200
@@ -221,8 +231,8 @@ def telegram_webhook():
 
     if text == "/start":
         reply = "👋 Привет! Введите PIN-код для доступа:"
-    elif text == "1234":  # Тестовый PIN, замени как надо
-        reply = "✅ PIN принят. Добро пожаловать!"
+    elif text in pins:
+        reply = f"✅ PIN принят. Добро пожаловать в {pins[text]}!"
     else:
         reply = "❌ Неверный PIN. Попробуйте снова."
 
@@ -235,26 +245,6 @@ def send_telegram_text(chat_id, text):
     url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
     data = {"chat_id": chat_id, "text": text}
     requests.post(url, data=data)
-@app.route("/webhook/7714393507:AAGSwESX_TAT7_IYsJWAiUXhCge69thfG9Y", methods=["POST"])
-def telegram_webhook():
-    data = request.get_json()
-    if not data or "message" not in data:
-        return jsonify({"status": "ignored"}), 200
-
-    message = data["message"]
-    chat_id = message["chat"]["id"]
-    text = message.get("text", "").strip()
-
-    if text == "/start":
-        reply = "👋 Привет! Введите PIN-код для доступа:"
-    elif text == "1234":
-        reply = "✅ PIN принят. Добро пожаловать!"
-    else:
-        reply = "❌ Неверный PIN. Попробуйте снова."
-
-    send_telegram_text(chat_id, reply)
-    return jsonify({"status": "ok"}), 200
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
