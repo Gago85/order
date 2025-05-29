@@ -222,6 +222,11 @@ def telegram_webhook(token):
         return jsonify({"status": "unauthorized"}), 403
 
     data = request.get_json()
+
+    # 🔍 Логируем входящее сообщение
+    print("📩 Получено сообщение от Telegram:")
+    print(data)
+
     if not data or "message" not in data:
         return jsonify({"status": "ignored"}), 200
 
@@ -238,10 +243,3 @@ def telegram_webhook(token):
 
     send_telegram_text(chat_id, reply)
     return jsonify({"status": "ok"}), 200
-
-# 📩 Отправка текста в Telegram
-def send_telegram_text(chat_id, text):
-    bot_token = os.environ.get("BOT_TOKEN")
-    url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
-    data = {"chat_id": chat_id, "text": text}
-    requests.post(url, data=data)
