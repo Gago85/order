@@ -216,11 +216,8 @@ pins = {
     "4444": "Гефест"
 }
 
-@app.route("/webhook/<token>", methods=["POST"])
-def telegram_webhook(token):
-    if token != os.environ.get("BOT_TOKEN"):
-        return jsonify({"status": "unauthorized"}), 403
-
+@app.route("/webhook", methods=["POST"])
+def telegram_webhook():
     data = request.get_json()
 
     # 🔍 Логируем входящее сообщение
@@ -229,6 +226,20 @@ def telegram_webhook(token):
 
     if not data or "message" not in data:
         return jsonify({"status": "ignored"}), 200
+
+    message = data["message"]
+    chat_id = message["chat"]["id"]
+    text = message.get("text", "").strip()
+
+    if text == "/start":
+        reply = "👋 Привет! Введите PIN-код для доступа:"
+    elif text in pins:
+        reply = f"✅ PIN принят. Добро пожаловать в {pins[text]}!"
+    else:
+        reply = "❌ Неверный PIN. Попробуйте снова."
+
+    send_telegram_text(chat_id, reply)
+    return jsonify({"status": "ok"}), 200
 
     message = data["message"]
     chat_id = message["chat"]["id"]
