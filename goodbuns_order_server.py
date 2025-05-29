@@ -41,6 +41,7 @@ prices = {
 }
 
 # 📊 Генерация Excel
+
 def create_excel(data):
     now = datetime.now()
     date_str = now.strftime("%Y-%m-%d %H:%M")
@@ -120,6 +121,7 @@ def create_excel(data):
     return filepath
 
 # 📤 Telegram
+
 def send_to_telegram(filepath):
     bot_token = os.environ.get("BOT_TOKEN")
     chat_id = os.environ.get("CHAT_ID")
@@ -139,6 +141,7 @@ def send_to_telegram(filepath):
     return response.status_code == 200
 
 # 📬 Обработка
+
 @app.route("/order", methods=["POST"])
 def handle_order():
     data = request.get_json()
