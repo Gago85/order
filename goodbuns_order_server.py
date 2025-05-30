@@ -15,6 +15,7 @@ load_dotenv()
 # 🔔 Функция отправки текста в Telegram
 def send_telegram_text(chat_id, text):
     token = os.getenv("BOT_TOKEN")
+    print("🔑 BOT_TOKEN =", token)
     url = f"https://api.telegram.org/bot{token}/sendMessage"
     payload = {
         "chat_id": chat_id,
