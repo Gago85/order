@@ -207,8 +207,10 @@ def send_to_telegram(filepath):
         files = {'document': doc_file}
         data = {'chat_id': chat_id}
         response = requests.post(url, files=files, data=data)
-   print("📤 Ответ от Telegram (файл):", response.text)  # <--- ВАЖНО!
+        print("📤 Ответ от Telegram (файл):", response.text)  # <--- ВАЖНО!
+    
     return response.status_code == 200
+
 
 # 📬 Обработка заказа
 @app.route("/order", methods=["POST"])
