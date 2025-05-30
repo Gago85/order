@@ -247,7 +247,26 @@ def telegram_webhook():
     text = message.get("text", "").strip()
 
     if text == "/start":
-        reply = "👋 Привет! Введите PIN-код для доступа:"
+        reply_markup = {
+            "keyboard": [[
+                {
+                    "text": "📝 Оформить заказ",
+                    "web_app": { "url": "https://gago85.github.io/order/" }
+                }
+            ]],
+            "resize_keyboard": True
+        }
+
+        token = os.getenv("BOT_TOKEN")
+        url = f"https://api.telegram.org/bot{token}/sendMessage"
+        payload = {
+            "chat_id": chat_id,
+            "text": "Нажми на кнопку ниже, чтобы оформить заказ 👇",
+            "reply_markup": reply_markup
+        }
+        requests.post(url, json=payload)
+        return jsonify({"status": "ok"}), 200
+
     elif text in pins:
         reply = f"✅ PIN принят. Добро пожаловать в {pins[text]}!"
     else:
