@@ -9,6 +9,19 @@ from openpyxl.utils import get_column_letter
 
 app = Flask(__name__)
 CORS(app)
+from dotenv import load_dotenv
+load_dotenv()
+
+# 🔔 Функция отправки текста в Telegram
+def send_telegram_text(chat_id, text):
+    token = os.getenv("BOT_TOKEN")
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
+    payload = {
+        "chat_id": chat_id,
+        "text": text
+    }
+    requests.post(url, json=payload)
+
 
 # 💰 Цены
 prices = {
