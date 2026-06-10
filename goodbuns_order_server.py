@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import csv
 from datetime import datetime
 import os
 import requests
@@ -120,6 +121,33 @@ prices = {
     "Сгущенное молоко": 200.00,
     "Мороженое": 200.00
 }
+
+def load_prices_from_csv():
+    filepath = os.path.join(os.path.dirname(__file__), "items.csv")
+    loaded_prices = {}
+
+    try:
+        with open(filepath, newline="", encoding="utf-8-sig") as csv_file:
+            reader = csv.DictReader(csv_file, delimiter=";")
+            for row in reader:
+                if row.get("active", "").strip().lower() == "false":
+                    continue
+
+                name = row.get("name", "").strip()
+                price = row.get("price", "").strip().replace(",", ".")
+                if not name:
+                    continue
+
+                try:
+                    loaded_prices[name] = float(price or 0)
+                except ValueError:
+                    loaded_prices[name] = 0
+    except FileNotFoundError:
+        return {}
+
+    return loaded_prices
+
+prices.update(load_prices_from_csv())
 
 # 📊 Генерация Excel накладной
 def create_excel(data):

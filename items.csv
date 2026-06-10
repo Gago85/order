@@ -1,0 +1,99 @@
+category;name;price;active
+main;Стакан 0.1;200;true
+main;Стакан 0.2;10;true
+main;Стакан 0.3;10;true
+main;Стакан 0.4;10;true
+main;Стакан Шейк 0.4;270;true
+main;Крышки 90;200;true
+main;Крышки 80;180;true
+main;Крышки Шейк;100;true
+main;Трубочки;350;true
+main;Мешалки;300;true
+main;Ложки;120;true
+main;Вилки;120;true
+main;Лента Кассовая 80на80;600;true
+main;Лента Терминал;0;true
+main;Пакеты Майка;50;true
+main;Мусорные 240л;200;true
+main;Стекломой;100;true
+main;Шуманит;150;true
+main;Cafiza 1кг;1200;true
+main;Фери;150;true
+main;Белезна;50;true
+main;пемалюкс;100;true
+main;Ловушки;350;true
+main;Губка;50;true
+main;Фильтры для Bovilor 50шт;400;true
+main;Перчатки;300;true
+main;Пергамент;700;true
+main;Тряпка из микрофибры;40;true
+main;Бумажные пакеты;2000;true
+main;Салфетки;10;true
+main;Зева;200;true
+main;Тряпки половые;165;true
+main;Фильтр для чая;235;true
+main;Контейнера RK;7;true
+main;Подставка 2х;220;true
+main;Подставка 4х;320;true
+main;Молоко 3,2%;1000;true
+main;Сливки 11%;200;true
+main;Кофе sidamo;0;true
+main;Зерно фильтр;850;true
+main;Арахисовая Паста;250;true
+main;Какао 1кг;1500;true
+main;Кедровые Орехи;1200;true
+main;Матча;800;true
+main;Гвозьдика;0;true
+main;Бадьян;50;true
+main;цедра;0;true
+main;Корица Пальчиковая;50;true
+main;Корица Молотая;50;true
+main;Сахар 1кг;1500;true
+main;Кокосовый;190;true
+main;Соевый;180;true
+main;Миндальный;190;true
+main;Фундучный;180;true
+main;Банановый;180;true
+main;Апельсин св;10;true
+main;Лимон;10;true
+main;Лайм;15;true
+main;Вода 5л;0;true
+main;Мята;50;true
+main;Малина зм;150;true
+main;Ягодный;180;true
+main;Клюквеный;180;true
+main;Облепиховый;180;true
+main;Шиповник;180;true
+main;Имбирный;180;true
+main;маракуйя зм;750;true
+main;ЭрлГрей;250;true
+main;Сенча;250;true
+main;Пряный Чай 250г;950;true
+main;Лёд;0;true
+syrup;Солёная карамель;300;true
+syrup;амаретто;300;true
+syrup;Карамель;300;true
+syrup;Ваниль;300;true
+syrup;Банан;300;true
+syrup;Шоколад;300;true
+syrup;Клубника;300;true
+syrup;Hazel Nut;300;true
+syrup;Фисташковый;300;true
+syrup;Маракуйя;0;true
+syrup;Лаванда;300;true
+syrup;Яблочный пирог;300;true
+syrup;Кокос;300;true
+syrup;Мята;50;true
+syrup;Малина;0;true
+syrup;Апельсин;0;true
+topping;Топпинг Банан;200;true
+topping;Топпинг Шоколад;200;true
+topping;Топпинг Карамель;200;true
+topping;Сгущенное молоко;200;true
+topping;Мороженое;200;true
+drink;БонАква 0.5;700;true
+drink;Кола 0.5;0;true
+drink;Татни 1 ящ;1000;true
+drink;Апельсиновый сок 1л;110;true
+drink;Тоник 1 банка;100;true
+drink;Вода Газ 1,5л;60;true
