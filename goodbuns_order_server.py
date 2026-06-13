@@ -2,8 +2,10 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import csv
 from datetime import datetime
+from email.message import EmailMessage
 import os
 import requests
+import smtplib
 import openpyxl
 from openpyxl.styles import Font, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
@@ -240,6 +242,52 @@ def send_to_telegram(filepath):
     
     return response.status_code == 200
 
+def send_to_email(filepath, data):
+    try:
+        smtp_host = os.environ.get("SMTP_HOST", "smtp.office365.com")
+        smtp_port = int(os.environ.get("SMTP_PORT", "587"))
+        smtp_username = os.environ.get("SMTP_USERNAME")
+        smtp_password = os.environ.get("SMTP_PASSWORD")
+        email_from = os.environ.get("EMAIL_FROM", smtp_username)
+        email_to = os.environ.get("EMAIL_TO", "goodbuns2017@outlook.com")
+
+        if not smtp_username or not smtp_password or not email_from:
+            print("📧 Email не отправлен: не настроены SMTP_USERNAME/SMTP_PASSWORD/EMAIL_FROM")
+            return False
+
+        point = data.get("point", "")
+        day = data.get("day", "")
+        filename = os.path.basename(filepath)
+
+        message = EmailMessage()
+        message["Subject"] = f"GoodBuns накладная: {point} {day}".strip()
+        message["From"] = email_from
+        message["To"] = email_to
+        message.set_content(
+            f"Новая накладная GoodBuns.\n\n"
+            f"Точка: {point}\n"
+            f"День недели: {day}\n\n"
+            f"Файл накладной во вложении."
+        )
+
+        with open(filepath, "rb") as excel_file:
+            message.add_attachment(
+                excel_file.read(),
+                maintype="application",
+                subtype="vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                filename=filename
+            )
+
+        with smtplib.SMTP(smtp_host, smtp_port, timeout=20) as smtp:
+            smtp.starttls()
+            smtp.login(smtp_username, smtp_password)
+            smtp.send_message(message)
+        print(f"📧 Накладная отправлена на email: {email_to}")
+        return True
+    except Exception as e:
+        print("📧 Ошибка отправки email:", e)
+        return False
+
 
 # 📬 Обработка заказа
 @app.route("/order", methods=["POST"])
@@ -249,8 +297,14 @@ def handle_order():
         return jsonify({"status": "error", "message": "Нет данных"}), 400
     try:
         filepath = create_excel(data)
-        sent = send_to_telegram(filepath)
-        return jsonify({"status": "ok", "saved": filepath, "telegram_sent": sent}), 200
+        telegram_sent = send_to_telegram(filepath)
+        email_sent = send_to_email(filepath, data)
+        return jsonify({
+            "status": "ok",
+            "saved": filepath,
+            "telegram_sent": telegram_sent,
+            "email_sent": email_sent
+        }), 200
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
 
